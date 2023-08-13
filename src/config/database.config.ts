@@ -8,7 +8,11 @@ switch (process.env.NODE_ENV) {
             type: 'mysql',
             synchronize: true,
             database: 'linktree',
-            autoLoadEntities: true
+            autoLoadEntities: true,
+            username: 'root',
+            password: 'secret',
+            host: 'localhost',
+            port: 52323
         }
         break;
 
