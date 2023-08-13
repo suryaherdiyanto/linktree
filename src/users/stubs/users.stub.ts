@@ -12,4 +12,13 @@ export const users = [
         password: 'secret',
         name: 'John Doe'
     }
-]
+];
+
+export const user = [
+    {
+        username: 'jane',
+        email: 'jane@icloud.com',
+        password: 'secret',
+        name: 'Jane Lopez'
+    }
+];
