@@ -9,8 +9,8 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersModule],
       imports: [
+        UsersModule,
         TypeOrmModule.forRoot(databaseOption)
       ]
     }).compile();
