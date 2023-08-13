@@ -6,6 +6,7 @@ import { databaseOption } from '../config/database.config';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
 import { user, users } from './stubs/users.stub';
+import * as bcrypt from 'bcrypt';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -31,6 +32,10 @@ describe('UsersService', () => {
   describe('create()', function() {
     it('should be able to create a new user with the valid input and retrieve its email', async () => {
       expect((await service.create(user)).email).toBe(user.email);
+    });
+    it('should encrypt the password field', async () => {
+      const createdUser = await service.create(user);
+      expect(await bcrypt.compare(user.password, createdUser.password)).toBeTruthy();
     });
   })
 });
