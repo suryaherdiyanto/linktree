@@ -8,6 +8,9 @@ export class User {
     id: string;
 
     @Column('string')
+    name: string;
+
+    @Column('string')
     @Index({ unique: true })
     username: string;
 
