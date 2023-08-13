@@ -7,17 +7,17 @@ export class User {
     @Index()
     id: string;
 
-    @Column('string')
+    @Column('varchar')
     name: string;
 
-    @Column('string')
+    @Column('varchar')
     @Index({ unique: true })
     username: string;
 
-    @Column('string')
+    @Column('varchar')
     @Index({ unique: true })
     email: string;
 
-    @Column('string')
+    @Column('varchar')
     password: string;
 }
