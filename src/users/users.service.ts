@@ -9,6 +9,8 @@ export class UsersService {
     constructor(@InjectRepository(User) private repository: Repository<User>) {}
 
     create(data: CreateUserDTO) {
+        const user = this.repository.create(data);
 
+        return this.repository.save(user);
     }
 }

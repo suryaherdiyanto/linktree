@@ -30,7 +30,7 @@ describe('UsersService', () => {
   });
   describe('create()', function() {
     it('should be able to create a new user with the valid input and retrieve its email', async () => {
-      expect(await service.create(user).email).toBe(user.email);
+      expect((await service.create(user)).email).toBe(user.email);
     });
   })
 });
