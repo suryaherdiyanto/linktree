@@ -5,7 +5,7 @@ import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { databaseOption } from '../config/database.config';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
-import { users } from './stubs/users.stub';
+import { user, users } from './stubs/users.stub';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -22,10 +22,15 @@ describe('UsersService', () => {
     service = module.get<UsersService>(UsersService);
     repository = module.get(getRepositoryToken(User));
 
-    repository.createQueryBuilder().insert().values(users).execute();
+    await repository.createQueryBuilder().insert().values(users).execute();
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+  describe('create()', function() {
+    it('should be able to create a new user with the valid input and retrieve its email', async () => {
+      expect(await service.create(user).email).toBe(user.email);
+    });
+  })
 });
