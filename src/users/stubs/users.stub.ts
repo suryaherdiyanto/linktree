@@ -17,6 +17,7 @@ export const users = [
 export const user = {
     username: 'jane',
     email: 'jane@icloud.com',
-    password: 'secret',
+    password: 'secretpassword',
+	password_confirmation: 'secretpassword',
     name: 'Jane Lopez'
 };

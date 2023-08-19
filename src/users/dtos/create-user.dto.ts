@@ -12,6 +12,8 @@ export class CreateUserDTO {
 	@MinLength(6)
     password: string;
 
+	password_confirmation: string;
+
     @IsString()
     name: string;
 }

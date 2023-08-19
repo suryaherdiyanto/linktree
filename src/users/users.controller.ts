@@ -22,6 +22,10 @@ export class UsersController {
 			throw new BadRequestException(`Username: ${data.username} already been used!`);
 		}
 
+		if (data.password !== data.password_confirmation) {
+			throw new BadRequestException('Password must be valid!');
+		}
+
 		const user = await this.userService.create(data)
 
 		return { message: "Successfully registered!", data: user }
