@@ -54,5 +54,12 @@ describe('UsersController (e2e)', () => {
 					.send({ username: 'hang', email: 'johndoe@gmail.com', password: 'secretpassword', name: 'John' })
 					.expect(400);
 	  });
+
+	  it('should return 400 error if the password confirmation invalid', () => {
+		  return request(app.getHttpServer())
+					.post('/users/register')
+					.send({ username: 'john123', email: 'johndoe@gmail.com', password: 'secretpassword', password_confirmation: '', name: 'John' })
+					.expect(400);
+	  });
   });
 });
