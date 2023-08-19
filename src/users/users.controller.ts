@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import {CreateUserDTO} from './dtos/create-user.dto';
 import {UsersService} from './users.service';
 
@@ -7,7 +7,7 @@ export class UsersController {
 	constructor(private userService: UsersService) {}
 
 	@Post('/register')
-	async register(data: CreateUserDTO) {
+	async register(@Body() data: CreateUserDTO) {
 		const isEmailExists = await this.userService.findByEmail(data.email);
 
 		if (isEmailExists) {
