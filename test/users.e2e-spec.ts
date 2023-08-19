@@ -30,6 +30,8 @@ describe('UsersController (e2e)', () => {
 		  .then(response => {
 			  expect(response.body.data.email).toBe(user.email);
 			  expect(response.body.data.username).toBe(user.username);
+			  expect(response.body.data.id).not.toBeDefined();
+			  expect(response.body.data.password).not.toBeDefined();
 		  });
 	  });
   });
