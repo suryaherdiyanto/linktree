@@ -21,14 +21,16 @@ describe('UsersController (e2e)', () => {
     await app.init();
   });
 
-  it('/users/register (POST)', () => {
-    return request(app.getHttpServer())
-      .post('/users/register')
-	  .send(user)
-      .expect(201)
-      .then(response => {
-		  expect(response.body.data.email).toBe(user.email);
-		  expect(response.body.data.username).toBe(user.username);
-	  })
+  describe('/users/register (POST)', () => {
+	  it('should able to create user with valid inputs', () => {
+		return request(app.getHttpServer())
+		  .post('/users/register')
+		  .send(user)
+		  .expect(201)
+		  .then(response => {
+			  expect(response.body.data.email).toBe(user.email);
+			  expect(response.body.data.username).toBe(user.username);
+		  });
+	  });
   });
 });
