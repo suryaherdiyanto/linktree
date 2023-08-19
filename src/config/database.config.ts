@@ -12,7 +12,7 @@ switch (process.env.NODE_ENV) {
             username: 'root',
             password: 'secret',
             host: 'localhost',
-            port: 52323
+            port: 65036
         }
         break;
 

@@ -20,7 +20,7 @@ export class UsersController {
 			throw new BadRequestException(`Username: ${data.username} already been used!`);
 		}
 
-		const user = this.userService.create(data)
+		const user = await this.userService.create(data)
 
 		return { message: "Successfully registered!", data: user }
 	}
