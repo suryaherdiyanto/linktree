@@ -1,13 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import {user} from '../src/users/stubs/users.stub';
+import {user, users} from '../src/users/stubs/users.stub';
 import {UsersModule} from '../src/users/users.module';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import {getRepositoryToken, TypeOrmModule} from '@nestjs/typeorm';
 import {databaseOption} from '../src/config/database.config';
+import {Repository} from 'typeorm';
+import {User} from '../src/users/users.entity';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
+  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -18,6 +21,9 @@ describe('UsersController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+	userRepository = app.get(getRepositoryToken(User));
+
+	userRepository.createQueryBuilder().insert().values(users).execute();
     await app.init();
   });
 
@@ -33,6 +39,20 @@ describe('UsersController (e2e)', () => {
 			  expect(response.body.data.id).not.toBeDefined();
 			  expect(response.body.data.password).not.toBeDefined();
 		  });
+	  });
+
+	  it('should return 400 error if the email already used', () => {
+		  return request(app.getHttpServer())
+					.post('/users/register')
+					.send({ username: 'abcdef', email: 'dragon@gmail.com', password: 'secretpassword', name: 'John' })
+					.expect(400);
+	  });
+
+	  it('should return 400 error if the username already used', () => {
+		  return request(app.getHttpServer())
+					.post('/users/register')
+					.send({ username: 'hang', email: 'johndoe@gmail.com', password: 'secretpassword', name: 'John' })
+					.expect(400);
 	  });
   });
 });
