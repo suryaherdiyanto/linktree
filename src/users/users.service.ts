@@ -13,4 +13,12 @@ export class UsersService {
 
         return this.repository.save(user);
     }
+
+	findByEmail(email: string) {
+		return this.repository.findOneBy({ email });
+	}
+
+	findByUsername(username: string) {
+		return this.repository.findOneBy({ username });
+	}
 }

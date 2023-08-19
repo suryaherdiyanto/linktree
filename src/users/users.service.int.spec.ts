@@ -37,5 +37,27 @@ describe('UsersService', () => {
       const createdUser = await service.create(user);
       expect(await bcrypt.compare(user.password, createdUser.password)).toBeTruthy();
     });
+  });
+
+  describe('findByEmail', function() {
+	it('should be able to find the user based on the email', async function() {
+		expect(await service.findByEmail(users[0].email)).toEqual(
+			expect.objectContaining({ id: expect.any(String), email: users[0].email, username: users[0].username })
+		);
+	});
+	it('should return null if the email was not found in database', async function() {
+		expect(await service.findByEmail('carla@indi.com')).toBe(null);
+	});
+  });
+
+  describe('findByUsername', function() {
+	it('should be able to find the user based on the username', async function() {
+		expect(await service.findByUsername(users[0].username)).toEqual(
+			expect.objectContaining({ id: expect.any(String), email: users[0].email, username: users[0].username })
+		);
+	});
+	it('should return null if the email was not found in database', async function() {
+		expect(await service.findByUsername('dragon45')).toBe(null);
+	});
   })
 });
