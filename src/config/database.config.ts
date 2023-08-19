@@ -10,9 +10,9 @@ switch (process.env.NODE_ENV) {
             database: 'linktree',
             autoLoadEntities: true,
             username: 'root',
-            password: 'secret',
+            password: 'root',
             host: 'localhost',
-            port: 65036
+            port: 3306
         }
         break;
 
