@@ -1,4 +1,4 @@
-import {Exclude} from "class-transformer";
+import {Exclude, Expose} from "class-transformer";
 
 export class CreateUserResponseDTO {
 	@Exclude()
@@ -6,4 +6,13 @@ export class CreateUserResponseDTO {
 
 	@Exclude()
 	password: string;
+
+	@Expose()
+	email: string;
+
+	@Expose()
+	username: string;
+
+	@Expose()
+	name: string;
 }
