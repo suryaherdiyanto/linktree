@@ -8,14 +8,14 @@ export class User {
     @Index()
     id: string;
 
-    @Column('varchar')
+    @Column('varchar', { length: 100 })
     name: string;
 
-    @Column('varchar')
+    @Column('varchar', { length: 30 })
     @Index({ unique: true })
     username: string;
 
-    @Column('varchar')
+    @Column('varchar', { length: 50 })
     @Index({ unique: true })
     email: string;
 
