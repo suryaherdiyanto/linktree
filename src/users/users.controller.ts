@@ -3,7 +3,7 @@ import {CreateUserDTO} from './dtos/create-user.dto';
 import {CreateUserInterceptor} from './interceptors/create-user.interceptor';
 import {UsersService} from './users.service';
 import { LoginUserDTO } from './dtos/login-user.dto';
-import Jwt from 'jsonwebtoken';
+import * as Jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 
 @Controller('users')
