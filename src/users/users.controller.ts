@@ -39,7 +39,11 @@ export class UsersController {
 	async login(@Body() data: LoginUserDTO)
 	{
 		const userAttempt = await this.userService.findByEmail(data.email);
-		const isPasswordValid = await bcrypt.compare(data.password, userAttempt.password);
+		let isPasswordValid = false;
+
+		if (userAttempt) {
+			isPasswordValid = await bcrypt.compare(data.password, userAttempt.password);
+		}
 
 		if (!userAttempt || !isPasswordValid) {
 			throw new BadRequestException("Unknown username or password!");
