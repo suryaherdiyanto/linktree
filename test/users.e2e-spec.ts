@@ -62,4 +62,15 @@ describe('UsersController (e2e)', () => {
 					.expect(400);
 	  });
   });
+
+  describe('/users/login (POST)', () => {
+	it('should be able to login with valid email and password', async () => {
+		const response = await request(app.getHttpServer()).post('/users/login').send({ email: 'dragon@gmail.com', password: 'secret' });
+
+		console.log(response.body);
+
+		expect(response.statusCode).toBe(200);
+		expect(response.body.token).toBeDefined();
+	})
+  })
 });
