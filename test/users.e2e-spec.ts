@@ -79,6 +79,14 @@ describe('UsersController (e2e)', () => {
 		console.log(response.body);
 
 		expect(response.statusCode).toBe(400);
-	})
+	});
+
+	it('should not be able to login if the password invalid', async () => {
+		const response = await request(app.getHttpServer()).post('/users/login').send({ email: 'dragon@gmail.com', password: 'secret123' });
+
+		console.log(response.body);
+
+		expect(response.statusCode).toBe(400);
+	});
   })
 });
