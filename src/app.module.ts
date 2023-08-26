@@ -5,7 +5,6 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseOption } from './config/database.config';
 import {APP_PIPE} from '@nestjs/core';
-import { ProfileService } from './profile/profile.service';
 import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
@@ -21,7 +20,6 @@ import { ProfilesModule } from './profiles/profiles.module';
 		  provide: APP_PIPE,
 		  useValue: new ValidationPipe({ whitelist: true })
 	  },
-	  ProfileService
   ],
 })
 export class AppModule {}
