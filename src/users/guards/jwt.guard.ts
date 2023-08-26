@@ -13,15 +13,16 @@ export class JWTGuard implements CanActivate {
             throw new UnauthorizedException("Unauthenticated");
         }
 
-        const [_, token] = bearerToken.split('Bearer ');
-        const decodedUser = Jwt.verify(token, 'verfysecretkey');
+        const [_, token] = bearerToken.split(' ');
 
-        if (!decodedUser) {
-            throw new UnauthorizedException();
+        try {
+            const decodedUser = Jwt.verify(token, 'verysecretkey');
+
+            request['user'] = decodedUser;
+
+            return true;
+        } catch (error) {
+            throw new UnauthorizedException("Invalid Token");
         }
-
-        request['user'] = decodedUser;
-
-        return true;
     }
 }
