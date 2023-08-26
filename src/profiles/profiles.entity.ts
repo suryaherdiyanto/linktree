@@ -16,7 +16,7 @@ export class Profile {
     @Column('text', { nullable: true })
     photo: string;
 
-    @OneToOne(() => User, (user) => user.profile)
+    @OneToOne(() => User, (user) => user.profile, { cascade: true })
     @JoinColumn()
     user: User;
 }
