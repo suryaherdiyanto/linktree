@@ -14,7 +14,7 @@ export class Profile {
     birthday: string;
 
     @Column('text')
-    profile_picture: string;
+    photo: string;
 
     @OneToOne(() => User)
     @JoinColumn()
