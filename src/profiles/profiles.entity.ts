@@ -7,13 +7,13 @@ export class Profile {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column('varchar', { length: 200 })
+    @Column('varchar', { length: 200, nullable: true })
     bio: string;
 
-    @Column('date')
+    @Column('date', { nullable: true })
     birthday: string;
 
-    @Column('text')
+    @Column('text', { nullable: true })
     photo: string;
 
     @OneToOne(() => User, (user) => user.profile)

@@ -10,7 +10,7 @@ export class ProfilesService {
         @InjectRepository(Profile) private repository: Repository<Profile>,
     ) {}
 
-    async saveProfile(userId: string, bio: string, birthday: string, photo: string)
+    async saveProfile(userId: string, bio: string|null, birthday: string|null, photo: string|null)
     {
         const profile = await this.repository.findOne({
             where: {
