@@ -8,14 +8,26 @@ import { User } from '../users/users.entity';
 export class ProfilesService {
     constructor(
         @InjectRepository(Profile) private repository: Repository<Profile>,
-        @InjectRepository(User) private userRepository: Repository<User>
     ) {}
 
     async saveProfile(userId: string, bio: string, birthday: string, photo: string)
     {
-        const user = await this.userRepository.findOneBy({ id: userId });
-        const profile = this.repository.create({ user, bio, birthday, photo });
+        const profile = await this.repository.findOne({
+            where: {
+                user: {
+                    id: userId
+                }
+            }
+        });
 
-        return this.repository.save(profile);
+        let createProfile: Partial<Profile>
+        if (!profile) {
+            createProfile = this.repository.create({user: { id: userId }, bio, birthday, photo})
+        } else {
+            createProfile = Object.assign(profile, {user: { id: userId }, bio, birthday, photo});
+        }
+
+
+        return this.repository.save(createProfile);
     }
 }

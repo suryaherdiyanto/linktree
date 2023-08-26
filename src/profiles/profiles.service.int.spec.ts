@@ -38,15 +38,27 @@ describe('ProfilesService', () => {
     it('should create a new profile for the user if does not exists', async () => {
       const user = (await userRepository.find())[0];
 
-      expect(await service.saveProfile(user.id, 'being me', '1990-03-12', 'me.jpg')).toEqual({
-        id: expect.any(String),
-        birthday: '1990-03-12',
-        bio: 'being me',
-        photo: 'me.jpg',
-        user,
-      });
+      expect(await service.saveProfile(user.id, 'being me', '1990-03-12', 'me.jpg')).toEqual(
+        expect.objectContaining({
+          id: expect.any(String),
+          birthday: '1990-03-12',
+          bio: 'being me',
+          photo: 'me.jpg'
+        })
+      );
     })
     it('should update the profile of the user', async () => {
+      const user = (await userRepository.find())[1];
+      await profileRepository.save({ birthday: '1992-01-01', bio: 'waaw', photo: 'me.jpg', user});
+
+      expect(await service.saveProfile(user.id, 'new bio', '1995-01-01','new-me.jpg')).toEqual(
+        expect.objectContaining({
+        id: expect.any(String),
+        birthday: '1995-01-01',
+        bio: 'new bio',
+        photo: 'new-me.jpg'
+      })
+      )
     })
   })
 });
