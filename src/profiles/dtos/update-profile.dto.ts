@@ -1,4 +1,4 @@
-import { IsDate, IsString, MaxLength, MinLength, ValidateIf } from "class-validator";
+import { IsDate, IsDateString, IsString, MaxLength, MinLength, ValidateIf } from "class-validator";
 
 export class UpdateProfileDTO {
 
@@ -7,6 +7,6 @@ export class UpdateProfileDTO {
     @ValidateIf((object: any, value: any) => value !== null)
     bio?: string;
 
-    @IsDate({ message: 'Birthday must be a valid date format' })
+    @IsDateString()
     birthday: string;
 }
