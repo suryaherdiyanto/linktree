@@ -1,6 +1,6 @@
 import { IsDate, IsString, MaxLength, MinLength, ValidateIf } from "class-validator";
 
-class UpdateProfile {
+export class UpdateProfileDTO {
 
     @IsString()
     @MaxLength(200)
