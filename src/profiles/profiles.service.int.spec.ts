@@ -4,7 +4,9 @@ import { Repository } from 'typeorm';
 import { User } from 'src/users/users.entity';
 import { Profile } from './profiles.entity';
 import { users } from 'src/users/stubs/users.stub';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
+import { databaseOption } from 'src/config/database.config';
+import { ProfilesModule } from './profiles.module';
 
 describe('ProfilesService', () => {
   let service: ProfilesService;
@@ -13,7 +15,10 @@ describe('ProfilesService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ProfilesService],
+      imports: [
+        TypeOrmModule.forRoot(databaseOption),
+        ProfilesModule
+      ]
     }).compile();
 
     service = module.get<ProfilesService>(ProfilesService);
@@ -26,6 +31,9 @@ describe('ProfilesService', () => {
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
+  it('should define the profile repository', () => {
+    expect(profileRepository).toBeDefined();
+  })
   describe('updateProfile', () => {
     it('should create a new profile for the user if does not exists', async () => {
     })
