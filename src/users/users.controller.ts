@@ -49,8 +49,8 @@ export class UsersController {
 			throw new BadRequestException("Unknown username or password!");
 		}
 
-		const { username, name, email } = userAttempt;
-		const token = Jwt.sign({username, name, email}, 'verysecretkey');
+		const { id, username, name, email } = userAttempt;
+		const token = Jwt.sign({id, username, name, email}, 'verysecretkey');
 
 		return { message: 'Login Successfully', token };
 	}
