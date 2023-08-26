@@ -36,6 +36,15 @@ describe('ProfilesService', () => {
   })
   describe('updateProfile', () => {
     it('should create a new profile for the user if does not exists', async () => {
+      const user = (await userRepository.find())[0];
+
+      expect(await service.saveProfile(user.id, 'being me', '1990-03-12', 'me.jpg')).toEqual({
+        id: expect.any(String),
+        birthday: '1990-03-12',
+        bio: 'being me',
+        photo: 'me.jpg',
+        user,
+      });
     })
     it('should update the profile of the user', async () => {
     })
