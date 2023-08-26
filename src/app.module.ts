@@ -9,8 +9,8 @@ import { ProfilesModule } from './profiles/profiles.module';
 
 @Module({
   imports: [
-    UsersModule,
     TypeOrmModule.forRoot(databaseOption),
+    UsersModule,
     ProfilesModule
   ],
   controllers: [AppController],
