@@ -7,13 +7,15 @@ import { databaseOption } from './config/database.config';
 import {APP_PIPE} from '@nestjs/core';
 import { ProfilesModule } from './profiles/profiles.module';
 import { ConfigModule } from '@nestjs/config';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseOption),
     ConfigModule.forRoot(),
     UsersModule,
-    ProfilesModule
+    ProfilesModule,
+    StorageModule
   ],
   controllers: [AppController],
   providers: [
