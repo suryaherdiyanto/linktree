@@ -1,12 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import {user, users} from '../src/users/stubs/users.stub';
-import {getRepositoryToken, TypeOrmModule} from '@nestjs/typeorm';
-import {databaseOption} from '../src/config/database.config';
+import {users} from '../src/users/stubs/users.stub';
+import {getRepositoryToken} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from '../src/users/users.entity';
-import { ProfilesModule } from '../src/profiles/profiles.module';
 import * as Jwt from 'jsonwebtoken';
 import { AppModule } from '../src/app.module';
 
