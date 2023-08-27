@@ -12,9 +12,11 @@ export class StorageService {
         this.storage = new S3Storage({
                 region: this.configService.get<string>('AWS_REGION', ''),
                 bucket: this.configService.get<string>('AWS_BUCKET', ''),
-                accessKey: this.configService.get<string>('AWS_ACCESKEY', '')
+                accessKey: this.configService.get<string>('AWS_ACCESSKEY', ''),
+                secretKey: this.configService.get<string>('AWS_SECRETKEY', '')
             }
         );
+
     }
 
     uploadFile(data: Buffer, filename: string) {
