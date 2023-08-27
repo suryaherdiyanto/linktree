@@ -6,10 +6,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseOption } from './config/database.config';
 import {APP_PIPE} from '@nestjs/core';
 import { ProfilesModule } from './profiles/profiles.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseOption),
+    ConfigModule.forRoot(),
     UsersModule,
     ProfilesModule
   ],
