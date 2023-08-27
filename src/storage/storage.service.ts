@@ -10,8 +10,8 @@ export class StorageService {
 
     constructor(private configService: ConfigService) {
         this.storage = new S3Storage({
-                region: this.configService.get<string>('AWS_REGION', ''),
-                bucket: this.configService.get<string>('AWS_BUCKET', ''),
+                region: this.configService.get<string>('AWS_REGION', 'asia'),
+                bucket: this.configService.get<string>('AWS_BUCKET', 'examplebucket'),
                 accessKey: this.configService.get<string>('AWS_ACCESSKEY', ''),
                 secretKey: this.configService.get<string>('AWS_SECRETKEY', '')
             }
