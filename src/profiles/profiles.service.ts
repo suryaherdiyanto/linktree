@@ -11,13 +11,7 @@ export class ProfilesService {
 
     async saveProfile(userId: string, bio: string|null, birthday: string|null, photo?: string|null)
     {
-        const profile = await this.repository.findOne({
-            where: {
-                user: {
-                    id: userId
-                }
-            }
-        });
+        const profile = await this.getProfile(userId);
 
         let createProfile: Partial<Profile>
         if (!profile) {
@@ -28,5 +22,14 @@ export class ProfilesService {
 
 
         return this.repository.save(createProfile);
+    }
+
+    async getProfile(userId: string)
+    {
+        return this.repository.findOne({
+            where: {
+                user: { id: userId }
+            }
+        });
     }
 }

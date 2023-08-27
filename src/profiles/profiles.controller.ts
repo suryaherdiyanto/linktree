@@ -1,4 +1,4 @@
-import { Body, Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JWTGuard } from '../users/guards/jwt.guard';
 import { ProfilesService } from './profiles.service';
 import { User as UserJWT } from '../users/decorators/jwt-user.decorator';
@@ -27,5 +27,11 @@ export class ProfilesController {
         }
 
         return this.profileService.saveProfile(user.id, data.bio, data.birthday, filename);
+    }
+
+    @Get('/me')
+    @UseGuards(JWTGuard)
+    getProfile(@UserJWT() user: Partial<User>) {
+        return this.profileService.getProfile(user.id);
     }
 }
