@@ -7,10 +7,12 @@ import {Repository} from 'typeorm';
 import {User} from '../src/users/users.entity';
 import * as Jwt from 'jsonwebtoken';
 import { AppModule } from '../src/app.module';
+import { Profile } from '../src/profiles/profiles.entity';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
   let userRepository: Repository<User>;
+  let profileRepository: Repository<Profile>;
   let token: string;
   let user: User;
 
@@ -23,9 +25,11 @@ describe('UsersController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     userRepository = app.get(getRepositoryToken(User));
+    profileRepository = app.get(getRepositoryToken(Profile));
 
     await userRepository.createQueryBuilder().insert().values(users).execute();
     user = (await userRepository.find())[0];
+    await profileRepository.save({ user, bio: 'bio', birthday: '1991:02:01', photo: 'me.jpg' });
 
     token = Jwt.sign({ id: user.id, email: user.email, username: user.username }, 'verysecretkey');
       await app.init();
@@ -49,6 +53,14 @@ describe('UsersController (e2e)', () => {
       expect(response.body.user.id).toBe(user.id);
       expect(response.body.bio).toBe('Im a hero');
       expect(response.body.birthday).toBe('1998-01-01');
+    });
+    it('should not updated the photo field if no file uploaded', async () => {
+      const response = await request(app.getHttpServer())
+          .put('/profiles/update')
+          .send({ userId: user.id, bio: 'Im a hero', 'birthday': '1998-01-01' })
+          .set('Authorization', 'Bearer '+token);
+
+          expect(response.body.photo).toBe('me.jpg');
     })
   });
 });

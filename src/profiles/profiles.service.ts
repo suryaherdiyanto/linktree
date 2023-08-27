@@ -17,7 +17,11 @@ export class ProfilesService {
         if (!profile) {
             createProfile = this.repository.create({user: { id: userId }, bio, birthday, photo})
         } else {
-            createProfile = Object.assign(profile, {user: { id: userId }, bio, birthday, photo});
+            createProfile = Object.assign(profile, {user: { id: userId }, bio, birthday });
+
+            if (photo) {
+                createProfile['photo'] = photo;
+            }
         }
 
 

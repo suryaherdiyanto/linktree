@@ -17,7 +17,7 @@ export class ProfilesController {
     @UseGuards(JWTGuard)
     @UseInterceptors(FileInterceptor('photo'))
     async updateProfile(@UserJWT() user: Partial<User>, @UploadedFile() file: Express.Multer.File, @Body() data: UpdateProfileDTO) {
-        let filename = '';
+        let filename = null;
 
         if (file) {
             if (file.size > 1000000) {
