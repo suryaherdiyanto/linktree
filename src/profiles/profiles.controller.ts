@@ -4,7 +4,7 @@ import { ProfilesService } from './profiles.service';
 import { User as UserJWT } from '../users/decorators/jwt-user.decorator';
 import { User } from '../users/users.entity';
 import { UpdateProfileDTO } from './dtos/update-profile.dto';
-import { StorageService } from 'src/storage/storage.service';
+import { StorageService } from '../storage/storage.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as crypto from 'crypto';
 

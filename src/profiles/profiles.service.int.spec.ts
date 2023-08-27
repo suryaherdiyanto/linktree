@@ -6,7 +6,6 @@ import { Profile } from './profiles.entity';
 import { users } from '../users/stubs/users.stub';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { databaseOption } from '../config/database.config';
-import { ProfilesModule } from './profiles.module';
 
 describe('ProfilesService', () => {
   let service: ProfilesService;
@@ -17,8 +16,9 @@ describe('ProfilesService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(databaseOption),
-        ProfilesModule
-      ]
+        TypeOrmModule.forFeature([User, Profile])
+      ],
+      providers: [ProfilesService]
     }).compile();
 
     service = module.get<ProfilesService>(ProfilesService);
@@ -59,6 +59,22 @@ describe('ProfilesService', () => {
         photo: 'new-me.jpg'
       })
       )
+    });
+  });
+  describe('getProfile', () => {
+    it('should return null if no user in database', async () => {
+      expect(await service.getProfile('nouser')).toBe(null);
+    });
+    it('should be return the profile of the user', async () => {
+      const user = (await userRepository.find())[1];
+      const profile = await profileRepository.save({ birthday: '1992-01-01', bio: 'waaw', photo: 'me.jpg', user});
+
+      expect(await service.getProfile(user.id)).toEqual({
+        id: expect.any(String),
+        bio: profile.bio,
+        birthday: profile.birthday,
+        photo: profile.photo
+      })
     })
   })
 });
