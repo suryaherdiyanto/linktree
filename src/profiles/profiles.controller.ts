@@ -16,7 +16,7 @@ export class ProfilesController {
     @Put('/update')
     @UseGuards(JWTGuard)
     @UseInterceptors(FileInterceptor('photo'))
-    async updateProfile(@UserJWT() user: Partial<User>, @UploadedFile(new ParseFilePipe({ validators: [new MaxFileSizeValidator({ maxSize: 1000000 }), new FileTypeValidator({ fileType: 'image/[jpeg,png]'})] })) file: Express.Multer.File, @Body() data: UpdateProfileDTO) {
+    async updateProfile(@UserJWT() user: Partial<User>, @UploadedFile(new ParseFilePipe({ validators: [new MaxFileSizeValidator({ maxSize: 1000000 }), new FileTypeValidator({ fileType: 'image/(jpeg|png)'})] })) file: Express.Multer.File, @Body() data: UpdateProfileDTO) {
         let filename = '';
 
         if (file) {
