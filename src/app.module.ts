@@ -12,7 +12,7 @@ import { StorageModule } from './storage/storage.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseOption),
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     ProfilesModule,
     StorageModule
