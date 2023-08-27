@@ -22,4 +22,8 @@ export class StorageService {
     uploadFile(data: Buffer, filename: string) {
         return this.storage.put(data, filename);
     }
+
+    getFile(objectId: string) {
+        return this.storage.get(objectId);
+    }
 }
