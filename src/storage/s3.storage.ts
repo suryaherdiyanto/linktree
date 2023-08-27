@@ -26,10 +26,9 @@ export class S3Storage implements CanStoreResource {
 
     async put(data: Buffer, uploadId: string): Promise<string> {
         const uploadCommand = new AWS.PutObjectCommand({ Bucket: this.bucket, Key: uploadId, Body: data });
-        const upload = await this.client.send(uploadCommand);
-        console.log(upload);
+        await this.client.send(uploadCommand);
 
-        return 'a';
+        return uploadId;
     }
 
     get(objectId: string) {
