@@ -1,4 +1,4 @@
-import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { JWTGuard } from '../users/guards/jwt.guard';
 import { ProfilesService } from './profiles.service';
 import { User as UserJWT } from '../users/decorators/jwt-user.decorator';
@@ -16,10 +16,17 @@ export class ProfilesController {
     @Put('/update')
     @UseGuards(JWTGuard)
     @UseInterceptors(FileInterceptor('photo'))
-    async updateProfile(@UserJWT() user: Partial<User>, @UploadedFile(new ParseFilePipe({ validators: [new MaxFileSizeValidator({ maxSize: 1000000 }), new FileTypeValidator({ fileType: 'image/(jpeg|png)'})] })) file: Express.Multer.File, @Body() data: UpdateProfileDTO) {
+    async updateProfile(@UserJWT() user: Partial<User>, @UploadedFile() file: Express.Multer.File, @Body() data: UpdateProfileDTO) {
         let filename = '';
 
         if (file) {
+            if (file.size > 1000000) {
+                throw new BadRequestException("File size should not be greated than 1Mb");
+            }
+
+            if (['image/jpeg', 'image/png'].indexOf(file.mimetype) === -1) {
+                throw new BadRequestException("File format must be jpg or png");
+            }
             const [_, format] = file.mimetype.split('/');
             filename = crypto.randomBytes(24).toString('hex')+'.'+format;
 
