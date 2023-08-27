@@ -8,6 +8,7 @@ import {Repository} from 'typeorm';
 import {User} from '../src/users/users.entity';
 import { ProfilesModule } from '../src/profiles/profiles.module';
 import * as Jwt from 'jsonwebtoken';
+import { AppModule } from '../src/app.module';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
@@ -18,8 +19,7 @@ describe('UsersController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        ProfilesModule,
-        TypeOrmModule.forRoot(databaseOption)
+        AppModule
       ],
     }).compile();
 
