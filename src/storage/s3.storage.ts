@@ -31,11 +31,11 @@ export class S3Storage implements CanStoreResource {
         return uploadId;
     }
 
-    async get(objectId: string) {
+    async get(objectId: string): Promise<Buffer|string> {
         const getObject = new AWS.GetObjectCommand({ Bucket: this.bucket, Key: objectId });
         const response = await this.client.send(getObject);
 
-        return response.Body.transformToByteArray();
+        return Buffer.from(await response.Body.transformToByteArray());
     }
 
     delete(objectId: string) {

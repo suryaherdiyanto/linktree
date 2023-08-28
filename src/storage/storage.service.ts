@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { S3Storage } from "./s3.storage";
 import { CanStoreResource } from "./interfaces/storage.interface";
 import { ConfigService } from "@nestjs/config";
+import { Readable } from "stream";
 
 
 @Injectable()
@@ -23,7 +24,14 @@ export class StorageService {
         return this.storage.put(data, filename);
     }
 
-    getFile(objectId: string) {
-        return this.storage.get(objectId);
+    async getFile(objectId: string): Promise<Readable> {
+        const fileBuffer = await this.storage.get(objectId);
+        const readable = new Readable();
+
+        readable._read = () => {};
+        readable.push(fileBuffer);
+        readable.push(null);
+
+        return readable;
     }
 }
