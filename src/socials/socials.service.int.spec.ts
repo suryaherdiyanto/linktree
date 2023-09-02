@@ -33,9 +33,10 @@ describe('SocialsService', () => {
   });
 
   describe('saveSocials', () => {
-    it('should create the social for user if doesnt exists', async () => {
-        const saveSocial = await service.saveSocial(userData.id, socials.FACEBOOK, 'https://facebook.com/john.doe');
+    it('should create the social media link for user', async () => {
+        const saveSocial = await service.saveSocial(userData.id, 'Add me on facebook', socials.FACEBOOK, 'https://facebook.com/john.doe');
         expect(saveSocial.user.id).toBe(userData.id);
+        expect(saveSocial.title).toBe('Add me on facebook');
         expect(saveSocial.socialMedia).toBe('facebook');
         expect(saveSocial.url).toBe('https://facebook.com/john.doe');
     });

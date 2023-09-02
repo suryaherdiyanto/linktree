@@ -7,9 +7,9 @@ import { Repository } from 'typeorm';
 export class SocialsService {
     constructor(@InjectRepository(Social) private repository: Repository<Social>) {}
 
-    saveSocial(userId: string, socialMedia: socials, url: string)
+    saveSocial(userId: string, title: string, socialMedia: socials, url: string)
     {
-        const social = this.repository.create({ user: { id: userId }, socialMedia, url });
+        const social = this.repository.create({ user: { id: userId }, title, socialMedia, url });
         return this.repository.save(social);
     }
 }
