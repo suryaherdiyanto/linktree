@@ -18,8 +18,10 @@ export class SocialsController {
     }
 
     @Delete('/delete/:id')
-    deleteSocial(@Param() id: string)
+    async deleteSocial(@Param() id: string)
     {
-        return this.socialService.removeSocial(id);
+        await this.socialService.removeSocial(id);
+
+        return { message: 'Successfully delete social media ' };
     }
 }

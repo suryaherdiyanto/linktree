@@ -15,6 +15,7 @@ describe('SocialsController (e2e)', () => {
   let socialRepository: Repository<Social>;
   let token: string;
   let user: User;
+  let social: Social;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -29,7 +30,7 @@ describe('SocialsController (e2e)', () => {
 
     await userRepository.createQueryBuilder().insert().values(users).execute();
     user = (await userRepository.find())[0];
-    await socialRepository.save({ user, title: 'Add me on facebook', socialMedia: socials.FACEBOOK, url: 'https://facebook.com/john.doe' });
+    social = await socialRepository.save({ user, title: 'Add me on facebook', socialMedia: socials.FACEBOOK, url: 'https://facebook.com/john.doe' });
 
     token = Jwt.sign({ id: user.id, email: user.email, username: user.username }, 'verysecretkey');
       await app.init();
@@ -63,6 +64,17 @@ describe('SocialsController (e2e)', () => {
         expect(response.statusCode).toBe(201);
         expect(response.body.user.id).toBe(user.id);
         expect(response.body.socialMedia).toBe('instagram');
+    });
+    it('should able to delete social media', async () => {
+        const response = await request(app.getHttpServer())
+            .delete('/socials/delete/'+social.id)
+            .set('Authorization', 'Bearer '+token);
+
+        console.log(response.body);
+
+        expect(response.status).toBe(200);
+        expect(await socialRepository.findOneBy({ title: 'Add me on facebook' })).toBeNull();
+        expect(response.body.message).toBeDefined();
     })
   });
 });
