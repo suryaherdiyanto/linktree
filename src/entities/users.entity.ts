@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, Index, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Profile } from "./profiles.entity";
 import { Social } from "./socials.entity";
@@ -27,8 +27,8 @@ export class User {
     @OneToOne(() => Profile, (profile) => profile.user)
     profile: Profile;
 
-    @OneToOne(() => Social, (social) => social.user)
-    social: Social;
+    @OneToMany(() => Social, (social) => social.user)
+    socials: Social[];
 
     @BeforeInsert()
     encryptPassword() {
