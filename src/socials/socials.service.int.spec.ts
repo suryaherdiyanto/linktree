@@ -40,5 +40,14 @@ describe('SocialsService', () => {
         expect(saveSocial.socialMedia).toBe('facebook');
         expect(saveSocial.url).toBe('https://facebook.com/john.doe');
     });
+  });
+
+  describe('deleteSocial', () => {
+    it('should remove the social media link from user', async () => {
+        const saveSocial = await service.saveSocial(userData.id, 'Add me on facebook', socials.FACEBOOK, 'https://facebook.com/john.doe');
+        await service.removeSocial(saveSocial.id);
+
+        expect((await socialRepo.find()).length).toBe(0);
+    })
   })
 });

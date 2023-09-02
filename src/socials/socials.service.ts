@@ -12,4 +12,10 @@ export class SocialsService {
         const social = this.repository.create({ user: { id: userId }, title, socialMedia, url });
         return this.repository.save(social);
     }
+
+
+    removeSocial(id: string)
+    {
+        return this.repository.delete(id);
+    }
 }
