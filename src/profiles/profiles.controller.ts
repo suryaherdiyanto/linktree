@@ -24,7 +24,7 @@ export class ProfilesController {
                 throw new BadRequestException("File size should not be greated than 1Mb");
             }
 
-            if (['image/jpeg', 'image/png'].indexOf(file.mimetype) === -1) {
+            if (['image/jpeg', 'image/png', 'image/jpg'].indexOf(file.mimetype) === -1) {
                 throw new BadRequestException("File format must be jpg or png");
             }
             const [_, format] = file.mimetype.split('/');
