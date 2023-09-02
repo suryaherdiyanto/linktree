@@ -1,11 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProfilesService } from './profiles.service';
 import { Repository } from 'typeorm';
-import { User } from '../users/users.entity';
-import { Profile } from './profiles.entity';
+import { User } from '../entities/users.entity';
+import { Profile } from '../entities/profiles.entity';
 import { users } from '../users/stubs/users.stub';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { databaseOption } from '../config/database.config';
+import { Social } from '../entities/socials.entity';
 
 describe('ProfilesService', () => {
   let service: ProfilesService;
@@ -16,7 +17,7 @@ describe('ProfilesService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forRoot(databaseOption),
-        TypeOrmModule.forFeature([User, Profile])
+        TypeOrmModule.forFeature([User, Profile, Social])
       ],
       providers: [ProfilesService]
     }).compile();

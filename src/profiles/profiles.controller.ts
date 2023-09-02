@@ -2,7 +2,7 @@ import { BadRequestException, Body, Controller, FileTypeValidator, Get, MaxFileS
 import { JWTGuard } from '../users/guards/jwt.guard';
 import { ProfilesService } from './profiles.service';
 import { User as UserJWT } from '../users/decorators/jwt-user.decorator';
-import { User } from '../users/users.entity';
+import { User } from '../entities/users.entity';
 import { UpdateProfileDTO } from './dtos/update-profile.dto';
 import { StorageService } from '../storage/storage.service';
 import { FileInterceptor } from '@nestjs/platform-express';

@@ -6,7 +6,7 @@ import {UsersModule} from '../src/users/users.module';
 import {getRepositoryToken, TypeOrmModule} from '@nestjs/typeorm';
 import {databaseOption} from '../src/config/database.config';
 import {Repository} from 'typeorm';
-import {User} from '../src/users/users.entity';
+import {User} from '../src/entities/users.entity';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;

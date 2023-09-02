@@ -4,7 +4,7 @@ import { UsersModule } from './users.module';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
 import { databaseOption } from '../config/database.config';
 import { Repository } from 'typeorm';
-import { User } from './users.entity';
+import { User } from '../entities/users.entity';
 import { user, users } from './stubs/users.stub';
 import * as bcrypt from 'bcrypt';
 

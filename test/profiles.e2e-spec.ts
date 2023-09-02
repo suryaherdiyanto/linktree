@@ -4,10 +4,10 @@ import * as request from 'supertest';
 import {users} from '../src/users/stubs/users.stub';
 import {getRepositoryToken} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
-import {User} from '../src/users/users.entity';
+import {User} from '../src/entities/users.entity';
 import * as Jwt from 'jsonwebtoken';
 import { AppModule } from '../src/app.module';
-import { Profile } from '../src/profiles/profiles.entity';
+import { Profile } from '../src/entities/profiles.entity';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;

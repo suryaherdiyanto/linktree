@@ -1,5 +1,5 @@
-import { User } from "src/users/users.entity";
-import { Column, Entity, JoinTable, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./users.entity";
+import { Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 enum socials {
     FACEBOOK = 'facebook',
@@ -15,19 +15,19 @@ export class Social {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column('enum')
+    @Column({ type: 'simple-enum', enum: socials })
     socialMedia: socials;
 
     @Column('text')
     url: string;
 
-    @OneToOne(() => User, (user) => user.social)
+    @ManyToOne(() => User)
     @JoinTable()
     user: User;
 
-    @Column('timestamp')
+    @CreateDateColumn()
     createdAt: string;
 
-    @Column('timestamp')
+    @UpdateDateColumn()
     updatedAt: string;
 }
