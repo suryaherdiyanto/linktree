@@ -15,6 +15,9 @@ export class Social {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Column('varchar', { length: 50 })
+    title: string;
+
     @Column({ type: 'simple-enum', enum: socials })
     socialMedia: socials;
 
