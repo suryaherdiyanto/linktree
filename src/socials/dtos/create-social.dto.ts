@@ -1,8 +1,9 @@
 import { IsEnum, IsNotEmpty, IsUrl, MaxLength } from "class-validator";
+import { socials } from "../../entities/socials.entity";
 
 export class CreateSocialDTO {
 
-    @IsEnum(['facebook', 'twitter', 'linkedin', 'github'])
+    @IsEnum(socials)
     social_media: string;
 
     @MaxLength(50)

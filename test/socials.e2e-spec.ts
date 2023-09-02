@@ -43,5 +43,17 @@ describe('SocialsController (e2e)', () => {
 
         expect(response.statusCode).toBe(401);
 	});
+
+    it('should return validation error when user input social other social media', async () => {
+      const response = await request(app.getHttpServer())
+        .post('/socials/create')
+        .set('Authorization', 'Bearer '+token)
+        .send({ title: 'Watch me on twitch', social_media: 'twitch', url: 'https://twitch.tv/john'});
+
+        console.log(response.body);
+
+
+        expect(response.statusCode).toBe(400);
+    })
   });
 });
