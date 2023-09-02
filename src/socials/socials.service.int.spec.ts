@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { User } from '../entities/users.entity';
 import { Social, socials } from '../entities/socials.entity';
 import { user } from '../users/stubs/users.stub';
-import { log } from 'console';
 
 describe('SocialsService', () => {
   let service: SocialsService;
