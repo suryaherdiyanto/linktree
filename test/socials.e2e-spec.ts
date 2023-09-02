@@ -62,8 +62,9 @@ describe('SocialsController (e2e)', () => {
             .send({ title: 'Follow me on instagram', social_media: 'instagram', url: 'https://instagram.com/john'});
 
         expect(response.statusCode).toBe(201);
-        expect(response.body.user.id).toBe(user.id);
-        expect(response.body.socialMedia).toBe('instagram');
+        expect(response.body.data.user.id).toBe(user.id);
+        expect(response.body.data.socialMedia).toBe('instagram');
+        expect(response.body.message).toBeDefined();
     });
     it('should able to delete social media', async () => {
         const response = await request(app.getHttpServer())

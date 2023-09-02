@@ -12,9 +12,11 @@ export class SocialsController {
 
     @Post('/create')
     @UseGuards(JWTGuard)
-    createSocial(@Body() data: CreateSocialDTO, @UserJWT() user: Partial<User>)
+    async createSocial(@Body() data: CreateSocialDTO, @UserJWT() user: Partial<User>)
     {
-        return this.socialService.saveSocial(user.id, data.title, socials[data.social_media.toUpperCase()], data.url);
+        const social = await this.socialService.saveSocial(user.id, data.title, socials[data.social_media.toUpperCase()], data.url);
+
+        return { message: 'Successfully create social media link', data: social};
     }
 
     @Delete('/delete/:id')
