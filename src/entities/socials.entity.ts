@@ -1,7 +1,7 @@
 import { User } from "./users.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-enum socials {
+export enum socials {
     FACEBOOK = 'facebook',
     TWITTER = 'twitter',
     INSTAGRAM = 'instagram',
@@ -21,7 +21,7 @@ export class Social {
     @Column('text')
     url: string;
 
-    @ManyToOne(() => User)
+    @ManyToOne(() => User, (user) => user.socials)
     @JoinTable()
     user: User;
 
