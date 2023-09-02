@@ -8,6 +8,7 @@ import {APP_PIPE} from '@nestjs/core';
 import { ProfilesModule } from './profiles/profiles.module';
 import { ConfigModule } from '@nestjs/config';
 import { StorageModule } from './storage/storage.module';
+import { SocialsModule } from './socials/socials.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { StorageModule } from './storage/storage.module';
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
     ProfilesModule,
-    StorageModule
+    StorageModule,
+    SocialsModule
   ],
   controllers: [AppController],
   providers: [

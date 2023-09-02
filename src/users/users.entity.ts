@@ -1,6 +1,7 @@
 import { BeforeInsert, Column, Entity, Index, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { Profile } from "../profiles/profiles.entity";
+import { Social } from "src/socials/socials.entity";
 
 @Entity()
 export class User {
@@ -25,6 +26,9 @@ export class User {
 
     @OneToOne(() => Profile, (profile) => profile.user)
     profile: Profile;
+
+    @OneToOne(() => Social, (social) => social.user)
+    social: Social;
 
     @BeforeInsert()
     encryptPassword() {
