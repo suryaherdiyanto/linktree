@@ -52,8 +52,17 @@ describe('SocialsController (e2e)', () => {
 
         console.log(response.body);
 
-
         expect(response.statusCode).toBe(400);
+    });
+    it('should able to create a social media with valid input', async () => {
+        const response = await request(app.getHttpServer())
+            .post('/socials/create')
+            .set('Authorization', 'Bearer '+token)
+            .send({ title: 'Follow me on instagram', social_media: 'instagram', url: 'https://instagram.com/john'});
+
+        expect(response.statusCode).toBe(201);
+        expect(response.body.user.id).toBe(user.id);
+        expect(response.body.socialMedia).toBe('instagram');
     })
   });
 });

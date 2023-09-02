@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Post, UseGuards } from '@nestjs/common';
 import { SocialsService } from './socials.service';
 import { CreateSocialDTO } from './dtos/create-social.dto';
 import { JWTGuard } from '../users/guards/jwt.guard';
@@ -14,6 +14,12 @@ export class SocialsController {
     @UseGuards(JWTGuard)
     createSocial(@Body() data: CreateSocialDTO, @UserJWT() user: Partial<User>)
     {
-        return this.socialService.saveSocial(user.id, data.title, socials[data.social_media], data.url);
+        return this.socialService.saveSocial(user.id, data.title, socials[data.social_media.toUpperCase()], data.url);
+    }
+
+    @Delete('/delete/:id')
+    deleteSocial(@Param() id: string)
+    {
+        return this.socialService.removeSocial(id);
     }
 }
