@@ -21,4 +21,8 @@ export class UsersService {
 	findByUsername(username: string) {
 		return this.repository.findOneBy({ username });
 	}
+
+	updateToken(userId: string, token: string) {
+		return this.repository.update({ id: userId }, { access_token: token });
+	}
 }

@@ -24,6 +24,9 @@ export class User {
     @Column('varchar')
     password: string;
 
+    @Column('text', { nullable: true })
+    access_token: string;
+
     @OneToOne(() => Profile, (profile) => profile.user)
     profile: Profile;
 

@@ -11,6 +11,7 @@ import * as bcrypt from 'bcrypt';
 describe('UsersService', () => {
   let service: UsersService;
   let repository: Repository<User>;
+  let singleUser: User;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -24,6 +25,8 @@ describe('UsersService', () => {
     repository = module.get(getRepositoryToken(User));
 
     await repository.createQueryBuilder().insert().values(users).execute();
+    singleUser = await repository.findOneBy({ email: users[0].email });
+
   });
 
   it('should be defined', () => {
@@ -40,24 +43,33 @@ describe('UsersService', () => {
   });
 
   describe('findByEmail', function() {
-	it('should be able to find the user based on the email', async function() {
-		expect(await service.findByEmail(users[0].email)).toEqual(
-			expect.objectContaining({ id: expect.any(String), email: users[0].email, username: users[0].username })
-		);
-	});
-	it('should return null if the email was not found in database', async function() {
-		expect(await service.findByEmail('carla@indi.com')).toBe(null);
-	});
+    it('should be able to find the user based on the email', async function() {
+      expect(await service.findByEmail(users[0].email)).toEqual(
+        expect.objectContaining({ id: expect.any(String), email: users[0].email, username: users[0].username })
+      );
+    });
+    it('should return null if the email was not found in database', async function() {
+      expect(await service.findByEmail('carla@indi.com')).toBe(null);
+    });
   });
 
   describe('findByUsername', function() {
-	it('should be able to find the user based on the username', async function() {
-		expect(await service.findByUsername(users[0].username)).toEqual(
-			expect.objectContaining({ id: expect.any(String), email: users[0].email, username: users[0].username })
-		);
-	});
-	it('should return null if the email was not found in database', async function() {
-		expect(await service.findByUsername('dragon45')).toBe(null);
-	});
+    it('should be able to find the user based on the username', async function() {
+      expect(await service.findByUsername(users[0].username)).toEqual(
+        expect.objectContaining({ id: expect.any(String), email: users[0].email, username: users[0].username })
+      );
+    });
+    it('should return null if the email was not found in database', async function() {
+      expect(await service.findByUsername('dragon45')).toBe(null);
+    });
+  });
+
+  describe('updateToken', function() {
+    it('should be able to update user\'s access token', async function() {
+      await service.updateToken(singleUser.id, 'thetoken');
+      const user = (await repository.findOneBy({ id: singleUser.id }));
+
+      expect(user.access_token).toBe('thetoken');
+    })
   })
 });
