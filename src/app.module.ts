@@ -1,4 +1,4 @@
-import { Module, ValidationPipe } from '@nestjs/common';
+import { Module, UnprocessableEntityException, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
@@ -9,6 +9,7 @@ import { ProfilesModule } from './profiles/profiles.module';
 import { ConfigModule } from '@nestjs/config';
 import { StorageModule } from './storage/storage.module';
 import { SocialsModule } from './socials/socials.module';
+import { ValidationError } from 'class-validator';
 
 @Module({
   imports: [
@@ -24,7 +25,21 @@ import { SocialsModule } from './socials/socials.module';
 	  AppService,
 	  {
 		  provide: APP_PIPE,
-		  useValue: new ValidationPipe({ whitelist: true })
+		  useValue: new ValidationPipe(
+        {
+          whitelist: true,
+          validationError: { value: false },
+          exceptionFactory: (errors: ValidationError[]) => {
+            let validationErrors = [];
+            errors.forEach((error) => {
+              validationErrors[error.property] = Object.values(error.constraints);
+            });
+            console.log(validationErrors);
+
+
+            return new UnprocessableEntityException({ message: "Unprocessable entity", errors: { ...validationErrors } });
+          }
+        })
 	  },
   ],
 })
