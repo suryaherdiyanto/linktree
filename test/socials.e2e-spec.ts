@@ -53,7 +53,8 @@ describe('SocialsController (e2e)', () => {
 
         console.log(response.body);
 
-        expect(response.statusCode).toBe(400);
+        expect(response.statusCode).toBe(422);
+        expect(response.body.errors.social_media).toBeDefined();
     });
     it('should able to create a social media with valid input', async () => {
         const response = await request(app.getHttpServer())
