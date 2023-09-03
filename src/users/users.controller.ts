@@ -1,10 +1,13 @@
-import { BadRequestException, Body, Controller, HttpCode, Post, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, HttpCode, Post, UseGuards, UseInterceptors } from '@nestjs/common';
 import {CreateUserDTO} from './dtos/create-user.dto';
 import {CreateUserInterceptor} from './interceptors/create-user.interceptor';
 import {UsersService} from './users.service';
 import { LoginUserDTO } from './dtos/login-user.dto';
 import * as Jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
+import { JWTGuard } from './guards/jwt.guard';
+import { User as JWTUser } from './decorators/jwt-user.decorator';
+import { User } from 'src/entities/users.entity';
 
 @Controller('users')
 export class UsersController {
@@ -53,5 +56,14 @@ export class UsersController {
 		const token = Jwt.sign({id, username, name, email}, 'verysecretkey');
 
 		return { message: 'Login Successfully', token };
+	}
+
+	@Post('/logout')
+	@UseGuards(JWTGuard)
+	@HttpCode(200)
+	async logout(@JWTUser() user: Partial<User>)
+	{
+		await this.userService.updateToken(user.id, null);
+		return { message: 'Token removed successfully' };
 	}
 }

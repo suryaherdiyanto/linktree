@@ -7,10 +7,13 @@ import {getRepositoryToken, TypeOrmModule} from '@nestjs/typeorm';
 import {databaseOption} from '../src/config/database.config';
 import {Repository} from 'typeorm';
 import {User} from '../src/entities/users.entity';
+import * as Jwt from 'jsonwebtoken';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
   let userRepository: Repository<User>;
+  let token: string;
+  let singleUser: User;
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -23,7 +26,10 @@ describe('UsersController (e2e)', () => {
     app = moduleFixture.createNestApplication();
 	userRepository = app.get(getRepositoryToken(User));
 
-	userRepository.createQueryBuilder().insert().values(users).execute();
+	await userRepository.createQueryBuilder().insert().values(users).execute();
+	singleUser = (await userRepository.find())[0];
+	token = Jwt.sign({ id: singleUser.id, email: singleUser.email, username: singleUser.username }, 'verysecretkey');
+
     await app.init();
   });
 
@@ -88,5 +94,16 @@ describe('UsersController (e2e)', () => {
 
 		expect(response.statusCode).toBe(400);
 	});
+  });
+
+  describe('/users/logout (POST)', () => {
+	it('Should removed user token', async () => {
+		const response = await request(app.getHttpServer()).post('/users/logout').set('Authorization', 'Bearer '+token);
+		const testUser = (await userRepository.find())[0];
+
+		expect(response.statusCode).toBe(200);
+		expect(response.body.message).toBeDefined();
+		expect(testUser.access_token).toBe(null);
+	})
   })
 });
