@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { StorageModule } from './storage/storage.module';
 import { SocialsModule } from './socials/socials.module';
 import { ValidationError } from 'class-validator';
+import { InertiaModule } from './inertia/inertia.module';
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import { ValidationError } from 'class-validator';
     UsersModule,
     ProfilesModule,
     StorageModule,
-    SocialsModule
+    SocialsModule,
+    InertiaModule
   ],
   controllers: [AppController],
   providers: [
