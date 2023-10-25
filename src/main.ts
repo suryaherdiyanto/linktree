@@ -8,14 +8,6 @@ import * as FileStore from 'session-file-store';
 const fileStore = FileStore(session);
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  const { createServer } = await import("vite");
-  const viteServer = await createServer({ appType: 'custom', server: { middlewareMode: true } });
-
-  app.use(viteServer.middlewares);
-
-  app.setBaseViewsDir(join(__dirname, '..', '..', 'views'));
-  app.useStaticAssets(join(__dirname, '..', '..', 'public'));
-  app.setViewEngine('hbs');
 
   app.use(session({
     store: new fileStore(),
