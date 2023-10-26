@@ -15,19 +15,30 @@ import { ValidationError } from 'class-validator';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'mysql',
-        host: configService.get<string>('DB_HOST'),
-        port: 3306,
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASE'),
-        entities: ['./entities/*.entity.ts'],
-        synchronize: configService.get<string>('NODE_ENV') === 'production' ? false:true,
-        ssl: configService.get<string>('NODE_ENV') === 'production' ? {
-          rejectUnauthorized: true
-        } : false
-      })
+      useFactory: (configService: ConfigService) => {
+        if (process.env.NODE_ENV === 'test') {
+          return ({
+            type: 'sqlite',
+            synchronize: true,
+            database: ':memory:',
+            autoLoadEntities: true
+          });
+        }
+
+        return ({
+          type: 'mysql',
+          host: configService.get<string>('DB_HOST'),
+          port: 3306,
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_DATABASE'),
+          entities: ['./entities/*.entity.ts'],
+          synchronize: configService.get<string>('NODE_ENV') === 'production' ? false:true,
+          ssl: configService.get<string>('NODE_ENV') === 'production' ? {
+            rejectUnauthorized: true
+          } : false
+        })
+      }
     }),
     UsersModule,
     ProfilesModule,

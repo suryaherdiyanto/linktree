@@ -2,14 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import {users} from '../src/users/stubs/users.stub';
-import {TypeOrmModule, getRepositoryToken} from '@nestjs/typeorm';
+import {getRepositoryToken} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from '../src/entities/users.entity';
 import * as Jwt from 'jsonwebtoken';
 import { Social, socials } from '../src/entities/socials.entity';
-import { ConfigModule } from '@nestjs/config';
-import { databaseOption } from 'src/config/database.config';
-import { ProfilesModule } from 'src/profiles/profiles.module';
+import { AppModule } from '../src/app.module';
 
 describe('SocialsController (e2e)', () => {
   let app: INestApplication;
@@ -22,9 +20,7 @@ describe('SocialsController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({ isGlobal: true }),
-        TypeOrmModule.forRoot(databaseOption),
-        ProfilesModule
+        AppModule
       ],
     }).compile();
 
