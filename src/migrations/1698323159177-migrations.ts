@@ -4,10 +4,8 @@ export class Migrations1698323159177 implements MigrationInterface {
     name = 'Migrations1698323159177'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE \`social\` DROP FOREIGN KEY \`FK_4cda297c26dea7a3b8d08b9ba18\``);
         await queryRunner.query(`ALTER TABLE \`social\` CHANGE \`userId\` \`userId\` varchar(36) NULL`);
         await queryRunner.query(`ALTER TABLE \`user\` CHANGE \`access_token\` \`access_token\` text NULL`);
-        await queryRunner.query(`ALTER TABLE \`profile\` DROP FOREIGN KEY \`FK_a24972ebd73b106250713dcddd9\``);
         await queryRunner.query(`ALTER TABLE \`profile\` CHANGE \`bio\` \`bio\` varchar(200) NULL`);
         await queryRunner.query(`ALTER TABLE \`profile\` CHANGE \`birthday\` \`birthday\` date NULL`);
         await queryRunner.query(`ALTER TABLE \`profile\` CHANGE \`photo\` \`photo\` text NULL`);
@@ -17,8 +15,6 @@ export class Migrations1698323159177 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`ALTER TABLE \`profile\` DROP FOREIGN KEY \`FK_a24972ebd73b106250713dcddd9\``);
-        await queryRunner.query(`ALTER TABLE \`social\` DROP FOREIGN KEY \`FK_4cda297c26dea7a3b8d08b9ba18\``);
         await queryRunner.query(`ALTER TABLE \`profile\` CHANGE \`userId\` \`userId\` varchar(36) NULL DEFAULT 'NULL'`);
         await queryRunner.query(`ALTER TABLE \`profile\` CHANGE \`photo\` \`photo\` text NULL DEFAULT 'NULL'`);
         await queryRunner.query(`ALTER TABLE \`profile\` CHANGE \`birthday\` \`birthday\` date NULL DEFAULT 'NULL'`);
