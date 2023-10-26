@@ -3,18 +3,32 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { databaseOption } from './config/database.config';
 import {APP_PIPE} from '@nestjs/core';
 import { ProfilesModule } from './profiles/profiles.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { StorageModule } from './storage/storage.module';
 import { SocialsModule } from './socials/socials.module';
 import { ValidationError } from 'class-validator';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(databaseOption),
     ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DB_HOST'),
+        port: 3306,
+        username: configService.get<string>('DB_USERNAME'),
+        password: configService.get<string>('DB_PASSWORD'),
+        database: configService.get<string>('DB_DATABASE'),
+        entities: ['./entities/*.entity.ts'],
+        synchronize: configService.get<string>('NODE_ENV') === 'production' ? false:true,
+        ssl: configService.get<string>('NODE_ENV') === 'production' ? {
+          rejectUnauthorized: true
+        } : false
+      })
+    }),
     UsersModule,
     ProfilesModule,
     StorageModule,
