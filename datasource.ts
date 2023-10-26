@@ -2,7 +2,6 @@ import { DataSource } from "typeorm";
 import * as dotenv from "dotenv";
 
 dotenv.config();
-console.log(process.env);
 
 export default new DataSource({
     type: "mysql",
@@ -12,7 +11,7 @@ export default new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     ssl: process.env.NODE_ENV === 'production' ? {
-        rejectUnauthorized: false
+        rejectUnauthorized: true
     } : false,
     entities: ['./dist/src/entities/*.entity.js'],
     migrations: ['./dist/src/migrations/*.js'],

@@ -7,16 +7,29 @@ switch (process.env.NODE_ENV) {
         databaseOption = {
             type: 'mysql',
             synchronize: true,
-            database: 'linktree',
+            database: process.env.DB_DATABASE,
             autoLoadEntities: true,
-            username: 'root',
-            password: 'root',
-            host: 'localhost',
+            username: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            host: process.env.DB_HOST,
             port: 3306
         }
         break;
 
     case 'production':
+        databaseOption = {
+            type: 'mysql',
+            synchronize: true,
+            database: process.env.DB_DATABASE,
+            autoLoadEntities: true,
+            username: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            host: process.env.DB_HOST,
+            port: 3306,
+            ssl: {
+                rejectUnauthorized: true
+            }
+        }
         break;
     default:
         databaseOption = {
