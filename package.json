@@ -20,7 +20,11 @@
     "test:e2e": "NODE_END=test jest --config ./test/jest-e2e.json",
     "test:int": "NODE_ENV=test jest --config ./test/jest-int.json --no-cache",
     "test:int:watch": "NODE_ENV=test jest --config ./test/jest-int.json --watch",
-    "typeorm": "typeorm-ts-node-esm"
+    "typeorm": "typeorm-ts-node-esm",
+    "migration:generate": "npx typeorm migration:generate -d dist/datasource.js ./src/migrations/migrations",
+    "migration:run": "npx typeorm migration:run -d dist/datasource.js",
+    "migration:create": "npx typeorm migration:create",
+    "migration:rollback": "npx typeorm migration:revert -d dist/datasource.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.400.0",

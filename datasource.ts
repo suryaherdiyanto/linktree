@@ -7,6 +7,6 @@ export default new DataSource({
     username: "root",
     password: "root",
     database: "linktree",
-    entities: ['./src/entities/*.entity.ts'],
-    migrations: ['./src/migrations/*.ts'],
+    entities: ['./dist/src/entities/*.entity.js'],
+    migrations: ['./dist/src/migrations/*.js'],
 });
