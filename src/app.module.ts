@@ -9,6 +9,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { StorageModule } from './storage/storage.module';
 import { SocialsModule } from './socials/socials.module';
 import { ValidationError } from 'class-validator';
+import { Profile } from './entities/profiles.entity';
+import { Social } from './entities/socials.entity';
+import { User } from './entities/users.entity';
 
 @Module({
   imports: [
@@ -32,7 +35,7 @@ import { ValidationError } from 'class-validator';
           username: configService.get<string>('DB_USERNAME'),
           password: configService.get<string>('DB_PASSWORD'),
           database: configService.get<string>('DB_DATABASE'),
-          entities: ['./entities/*.entity.ts'],
+          entities: [Profile, Social, User],
           synchronize: configService.get<string>('NODE_ENV') === 'production' ? false:true,
           ssl: configService.get<string>('NODE_ENV') === 'production' ? {
             rejectUnauthorized: true
