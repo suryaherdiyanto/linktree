@@ -7,9 +7,7 @@ import {Repository} from 'typeorm';
 import {User} from '../src/entities/users.entity';
 import * as Jwt from 'jsonwebtoken';
 import { Profile } from '../src/entities/profiles.entity';
-import { databaseOption } from '../src/config/database.config';
-import { ProfilesModule } from '../src/profiles/profiles.module';
-import { ConfigModule } from '@nestjs/config';
+import { AppModule } from '../src/app.module';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
@@ -21,9 +19,7 @@ describe('UsersController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({ isGlobal: true }),
-        TypeOrmModule.forRoot(databaseOption),
-        ProfilesModule
+        AppModule
       ],
     }).compile();
 
