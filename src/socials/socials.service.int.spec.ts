@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { User } from '../entities/users.entity';
 import { Social, socials } from '../entities/socials.entity';
 import { user } from '../users/stubs/users.stub';
+import { ConfigModule } from '@nestjs/config';
 
 describe('SocialsService', () => {
   let service: SocialsService;
@@ -16,7 +17,7 @@ describe('SocialsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [TypeOrmModule.forRoot(databaseOption), SocialsModule],
+      imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRoot(databaseOption), SocialsModule],
     }).compile();
 
     service = module.get<SocialsService>(SocialsService);
