@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { User } from '../entities/users.entity';
 import { user, users } from './stubs/users.stub';
 import * as bcrypt from 'bcrypt';
+import { ConfigModule } from '@nestjs/config';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -16,6 +17,7 @@ describe('UsersService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
+        ConfigModule.forRoot({ isGlobal: true }),
         TypeOrmModule.forRoot(databaseOption),
         UsersModule,
       ]
