@@ -2,12 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import {user, users} from '../src/users/stubs/users.stub';
-import {UsersModule} from '../src/users/users.module';
-import {getRepositoryToken, TypeOrmModule} from '@nestjs/typeorm';
-import {databaseOption} from '../src/config/database.config';
+import {getRepositoryToken} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {User} from '../src/entities/users.entity';
 import * as Jwt from 'jsonwebtoken';
+import { AppModule } from '../src/app.module';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
@@ -18,8 +17,7 @@ describe('UsersController (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [
-		  UsersModule,
-		  TypeOrmModule.forRoot(databaseOption)
+		AppModule
 	  ],
     }).compile();
 
@@ -28,7 +26,7 @@ describe('UsersController (e2e)', () => {
 
 	await userRepository.createQueryBuilder().insert().values(users).execute();
 	singleUser = (await userRepository.find())[0];
-	token = Jwt.sign({ id: singleUser.id, email: singleUser.email, username: singleUser.username }, 'verysecretkey');
+	token = Jwt.sign({ id: singleUser.id, email: singleUser.email, username: singleUser.username }, process.env.JWT_SECRET || 'verysecretkey');
 
     await app.init();
   });
@@ -47,24 +45,24 @@ describe('UsersController (e2e)', () => {
 		  });
 	  });
 
-	  it('should return 400 error if the email already used', () => {
-		  return request(app.getHttpServer())
+	  it('should return 400 error if the email already used', async () => {
+		  const res = await request(app.getHttpServer())
 					.post('/users/register')
-					.send({ username: 'abcdef', email: 'dragon@gmail.com', password: 'secretpassword', name: 'John' })
-					.expect(400);
+					.send({ username: 'abcdef', email: 'dragon@gmail.com', password: 'secretpassword', password_confirmation: 'secretpassword', name: 'John' });
+			expect(res.statusCode).toEqual(400);
 	  });
 
 	  it('should return 400 error if the username already used', () => {
 		  return request(app.getHttpServer())
 					.post('/users/register')
-					.send({ username: 'hang', email: 'johndoe@gmail.com', password: 'secretpassword', name: 'John' })
+					.send({ username: 'hang', email: 'johndoe@gmail.com', password: 'secretpassword', password_confirmation: 'secretpassword', name: 'John' })
 					.expect(400);
 	  });
 
 	  it('should return 400 error if the password confirmation invalid', () => {
 		  return request(app.getHttpServer())
 					.post('/users/register')
-					.send({ username: 'john123', email: 'johndoe@gmail.com', password: 'secretpassword', password_confirmation: '', name: 'John' })
+					.send({ username: 'john123', email: 'johndoe@gmail.com', password: 'secretpassword', password_confirmation: 'invalid', name: 'John' })
 					.expect(400);
 	  });
   });
@@ -73,8 +71,6 @@ describe('UsersController (e2e)', () => {
 	it('should be able to login with valid email and password', async () => {
 		const response = await request(app.getHttpServer()).post('/users/login').send({ email: 'dragon@gmail.com', password: 'secret' });
 
-		console.log(response.body);
-
 		expect(response.statusCode).toBe(200);
 		expect(response.body.token).toBeDefined();
 	});
@@ -82,7 +78,6 @@ describe('UsersController (e2e)', () => {
 	it('should not be able to login if the email invalid', async () => {
 		const response = await request(app.getHttpServer()).post('/users/login').send({ email: 'dragonball@gmail.com', password: 'secret' });
 
-		console.log(response.body);
 
 		expect(response.statusCode).toBe(400);
 	});
@@ -90,7 +85,6 @@ describe('UsersController (e2e)', () => {
 	it('should not be able to login if the password invalid', async () => {
 		const response = await request(app.getHttpServer()).post('/users/login').send({ email: 'dragon@gmail.com', password: 'secret123' });
 
-		console.log(response.body);
 
 		expect(response.statusCode).toBe(400);
 	});

@@ -32,7 +32,7 @@ describe('SocialsController (e2e)', () => {
     user = (await userRepository.find())[0];
     social = await socialRepository.save({ user, title: 'Add me on facebook', socialMedia: socials.FACEBOOK, url: 'https://facebook.com/john.doe' });
 
-    token = Jwt.sign({ id: user.id, email: user.email, username: user.username }, 'verysecretkey');
+    token = Jwt.sign({ id: user.id, email: user.email, username: user.username }, process.env.JWT_SECRET || 'verysecretkey');
       await app.init();
     });
 

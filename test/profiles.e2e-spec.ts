@@ -31,7 +31,7 @@ describe('UsersController (e2e)', () => {
     user = (await userRepository.find())[0];
     await profileRepository.save({ user, bio: 'bio', birthday: '1991:02:01', photo: 'me.jpg' });
 
-    token = Jwt.sign({ id: user.id, email: user.email, username: user.username }, 'verysecretkey');
+    token = Jwt.sign({ id: user.id, email: user.email, username: user.username }, process.env.JWT_SECRET || 'verysecretkey');
       await app.init();
     });
 

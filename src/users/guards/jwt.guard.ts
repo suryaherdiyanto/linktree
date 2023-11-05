@@ -2,9 +2,12 @@ import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from
 import { Request } from "express";
 import { Observable } from "rxjs";
 import * as Jwt from 'jsonwebtoken';
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class JWTGuard implements CanActivate {
+    constructor(private configService: ConfigService) {}
+
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
         const request = context.switchToHttp().getRequest<Request>();
         const bearerToken = request.headers.authorization;
@@ -16,7 +19,7 @@ export class JWTGuard implements CanActivate {
         const [_, token] = bearerToken.split(' ');
 
         try {
-            const decodedUser = Jwt.verify(token, 'verysecretkey');
+            const decodedUser = Jwt.verify(token, this.configService.get<string>('JWT_SECRET', 'verysecretkey'));
 
             request['user'] = decodedUser;
 

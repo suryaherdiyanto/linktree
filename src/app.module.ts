@@ -62,8 +62,6 @@ import { User } from './entities/users.entity';
             errors.forEach((error) => {
               validationErrors[error.property] = Object.values(error.constraints);
             });
-            console.log(validationErrors);
-
 
             return new UnprocessableEntityException({ message: "Unprocessable entity", errors: { ...validationErrors } });
           }

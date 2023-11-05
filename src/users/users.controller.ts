@@ -8,10 +8,11 @@ import * as bcrypt from 'bcrypt';
 import { JWTGuard } from './guards/jwt.guard';
 import { User as JWTUser } from './decorators/jwt-user.decorator';
 import { User } from 'src/entities/users.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('users')
 export class UsersController {
-	constructor(private userService: UsersService) {}
+	constructor(private userService: UsersService, private configService: ConfigService) {}
 
 	@Post('/register')
 	@UseInterceptors(CreateUserInterceptor)
@@ -53,7 +54,7 @@ export class UsersController {
 		}
 
 		const { id, username, name, email } = userAttempt;
-		const token = Jwt.sign({id, username, name, email}, 'verysecretkey');
+		const token = Jwt.sign({id, username, name, email}, this.configService.get<string>('JWT_SECRET', 'verysecretkey'), { expiresIn: '1h' });
 
 		return { message: 'Login Successfully', token };
 	}
