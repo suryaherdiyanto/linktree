@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as session from 'express-session';
 import * as FileStore from 'session-file-store';
+import { join } from 'path';
 
 const fileStore = FileStore(session);
 async function bootstrap() {
@@ -18,6 +19,9 @@ async function bootstrap() {
     saveUninitialized: false,
     resave: false
   }));
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(join(__dirname, '..', 'resources/views'));
+  app.setViewEngine('hbs');
   await app.listen(3000);
 }
 bootstrap();
