@@ -19,8 +19,8 @@ async function bootstrap() {
     saveUninitialized: false,
     resave: false
   }));
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'resources/views'));
+  app.useStaticAssets(join(__dirname, '..', '..', 'public'));
+  app.setBaseViewsDir(join(__dirname, '..', '..', 'resources/views'));
   app.setViewEngine('hbs');
   await app.listen(3000);
 }
