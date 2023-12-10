@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./resources/views/*.{html,hbs,js}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'open-sans': "'Open Sans', sans-serif"
+      }
+    },
   },
   plugins: [],
 }
